@@ -1,0 +1,34 @@
+driver = webdriver.Chrome(executable_path = r"C:\Users\Merit\Downloads\chromedriver_win32\chromedriver.exe")
+fname = "statesdata.xlsx"
+writer = pd.ExcelWriter(r"c:\\Users\\Merit\\Desktop\\assign1"+"\\"+fname,engine = "xlsxwriter")
+driver.get("https://ai.fmcsa.dot.gov/hhg/Search.asp?ads=a&len=en")
+driver.find_element_by_xpath("//label[contains(text(),'State')]//following::select").click()
+for i in range(1,97):
+    state = driver.find_element_by_xpath("//option[contains(text(),'Please select state')]//following::option["+str(i)+"]")
+    state.click()
+    st = state.text
+    driver.find_element_by_xpath("//tbody/tr[1]/td[2]/input[3]").click()
+    data = driver.find_element_by_xpath("//h2[contains(text(),'Search Results')]//following::td[13]")
+    try:
+        rows = data.find_elements_by_tag_name("tr")
+        head = rows[0].text.split(" ")
+        head1 = head[0]+"-"+head[1]+","+head[2]+"-"+head[3]+","+head[4]+"-"+head[5]+","+head[7]+"-"+head[8]
+        head2 = head1.split(",")
+        col = dict()
+        for head in head2:
+            col[head] = []
+        for rw in rows[1:]:
+            dt = rw.find_elements_by_tag_name("td")
+            for n, i in zip(head2,dt):
+                val = i.text
+                if val.startswith(" \nNotes"):
+                    break
+                else:
+                    col[n].append(val)
+            pd.DataFrame(col).to_excel(writer,sheet_name=st,index=False)
+    except:
+        pass
+    driver.back()
+driver.close()
+writer.save()
+writer.close()
