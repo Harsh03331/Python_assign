@@ -1,0 +1,14 @@
+import selenium
+driver = webdriver.Chrome(executable_path = r"C:\Users\Merit\Downloads\chromedriver_win32\chromedriver.exe")
+driver.get("https://www.cricbuzz.com/cricket-team")
+country = driver.find_elements_by_xpath("//body/div[1]/div[2]/div[5]/div[1]")
+lst = []
+for i in country:
+    lst.append(i.text)
+    l = lst[0].split('\n')
+    print("country name:",l)
+image = driver.find_elements_by_xpath("//div[contains(@class,'cb-col cb-col-25')]")
+for i,j in zip(image,l):
+    with open(j+".png","wb") as pic:
+        pic.write(i.screenshot_as_png)
+driver.close()
