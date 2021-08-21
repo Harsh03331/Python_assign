@@ -1,0 +1,118 @@
+import selenium
+import pandas as pd
+from selenium import webdriver
+
+driver = webdriver.Chrome(r"C:\Users\Merit\Downloads\chromedriver_win32\chromedriver.exe")
+fname = 'Batting.xlsx'
+driver.get("https://www.cricbuzz.com/cricket-stats/icc-rankings/men/batting")
+writer = pd.ExcelWriter(r"C:\\Users\\Merit\\Desktop\\assign1"+"\\"+fname,engine = 'xlsxwriter')
+# BATTING-TEST
+battingTest = []
+batTest = driver.find_elements_by_xpath("//a[@id='batsmen-tests-tab']//following::div[contains(@class,'cb-col cb-col-100 cb-font-14')]")
+for i in batTest:
+    battingTest.append(i.text.split("\n"))
+pd.ExcelWriter(fname,engine = 'xlsxwriter')
+batTdf = pd.DataFrame(battingTest,columns=["Position","","Player","Country","Rating"])
+batTdf.to_excel(writer,sheet_name="TEST",index=False)
+
+# BATTING-ODI
+driver.find_element_by_xpath("//a[@id='batsmen-odis-tab']").click()
+battingOdi = []
+batOdi = driver.find_elements_by_xpath("//a[@id='batsmen-odis-tab']//following::div[contains(@class,'cb-col cb-col-100 cb-font-14')]")
+for j in batOdi:
+    if j.text!='':
+        battingOdi.append(j.text.split("\n"))
+pd.ExcelWriter(fname,engine = 'xlsxwriter')
+batOdidf = pd.DataFrame(battingOdi,columns=["Position","","Player","Country","Rating"])
+batOdidf.to_excel(writer,sheet_name="ODI",index=False)
+
+# BATTING-T20
+driver.find_element_by_xpath("//a[@id='batsmen-t20s-tab']").click()
+battingT20 = []
+batT20 = driver.find_elements_by_xpath("//a[@id='batsmen-t20s-tab']//following::div[contains(@class,'cb-col cb-col-100 cb-font-14')]")
+for k in batT20:
+    if k.text!='':
+        battingT20.append(k.text.split("\n"))
+pd.ExcelWriter(fname,engine = 'xlsxwriter')
+batT20df = pd.DataFrame(battingT20,columns=["Position","","Player","Country","Rating"])
+batT20df.to_excel(writer,sheet_name="T20",index=False)
+
+writer.save()
+writer.close()
+
+# BOWLING-TEST
+flname = 'Bowling.xlsx'
+driver.get("https://www.cricbuzz.com/cricket-stats/icc-rankings/men/bowling")
+writer = pd.ExcelWriter(r"C:\\Users\\Merit\\Desktop\\assign1"+"\\"+flname,engine = 'xlsxwriter')
+
+bowlingTest = []
+bowlTest = driver.find_elements_by_xpath("//a[@id='bowlers-tests-tab']//following::div[contains(@class,'cb-col cb-col-100 cb-font-14')]")
+for a in bowlTest:
+    bowlingTest.append(a.text.split("\n"))
+pd.ExcelWriter(flname,engine = 'xlsxwriter')
+bowlTdf = pd.DataFrame(bowlingTest,columns=["Position","","Player","Country","Rating"])
+bowlTdf.to_excel(writer,sheet_name="TEST",index=False)
+
+# BOWLING-ODI
+driver.find_element_by_xpath("//a[@id='bowlers-odis-tab']").click()
+bowlingOdi = []
+bowlOdi = driver.find_elements_by_xpath("//a[@id='bowlers-odis-tab']//following::div[contains(@class,'cb-col cb-col-100 cb-font-14')]")
+for b in bowlOdi:
+    if b.text!="":
+        bowlingOdi.append(b.text.split("\n"))
+pd.ExcelWriter(flname,engine = 'xlsxwriter')
+bowlOdidf = pd.DataFrame(bowlingOdi,columns=["Position","","Player","Country","Rating"])
+bowlOdidf.to_excel(writer,sheet_name="ODI",index=False)
+
+# BOWLING-T20
+driver.find_element_by_xpath("//a[@id='bowlers-t20s-tab']").click()
+bowlingT20 = []
+bowlT20 = driver.find_elements_by_xpath("//a[@id='bowlers-t20s-tab']//following::div[contains(@class,'cb-col cb-col-100 cb-font-14')]")
+for c in bowlT20:
+    if c.text!="":
+        bowlingT20.append(c.text.split("\n"))
+pd.ExcelWriter(flname,engine = 'xlsxwriter')
+bowlT20df = pd.DataFrame(bowlingT20,columns=["Position","","Player","Country","Rating"])
+bowlT20df.to_excel(writer,sheet_name="T20",index=False)
+
+writer.save()
+writer.close()
+
+# ALLROUNDER-TEST
+flname1 = 'Allrounder.xlsx'
+driver.get("https://www.cricbuzz.com/cricket-stats/icc-rankings/men/all-rounder")
+writer = pd.ExcelWriter(r"C:\\Users\\Merit\\Desktop\\assign1"+"\\"+flname1,engine = 'xlsxwriter')
+
+allrounderTest = []
+roundTest = driver.find_elements_by_xpath("//a[@id='allrounders-tests-tab']//following::div[contains(@class,'cb-col cb-col-100 cb-font-14')]")
+for d in roundTest:
+    allrounderTest.append(d.text.split("\n"))
+pd.ExcelWriter(flname1,engine = 'xlsxwriter')
+testdf = pd.DataFrame(allrounderTest,columns=["Position","","Player","Country","Rating"])
+testdf.to_excel(writer,sheet_name="TEST",index=False)
+
+# ALLROUNDER-ODI
+driver.find_element_by_xpath("//a[@id='allrounders-odis-tab']").click()
+allrounderOdi = []
+roundOdi = driver.find_elements_by_xpath("//a[@id='allrounders-odis-tab']//following::div[contains(@class,'cb-col cb-col-100 cb-font-14')]")
+for e in roundOdi:
+    if e.text!="":
+        allrounderOdi.append(e.text.split("\n"))
+pd.ExcelWriter(flname1,engine = 'xlsxwriter')
+Odidf = pd.DataFrame(allrounderOdi,columns=["Position","","Player","Country","Rating"])
+Odidf.to_excel(writer,sheet_name="ODI",index=False)
+
+# ALLROUNDER-T20
+driver.find_element_by_xpath("//a[@id='allrounders-t20s-tab']").click()
+allrounderT20 = []
+roundT20 = driver.find_elements_by_xpath("//a[@id='allrounders-t20s-tab']//following::div[contains(@class,'cb-col cb-col-100 cb-font-14')]")
+for f in roundT20:
+    if f.text!="":
+        allrounderT20.append(f.text.split("\n"))
+pd.ExcelWriter(flname1,engine = 'xlsxwriter')
+T20df = pd.DataFrame(allrounderT20,columns=["Position","","Player","Country","Rating"])
+T20df.to_excel(writer,sheet_name="T20",index=False)
+
+driver.close()
+writer.save()
+writer.close()
